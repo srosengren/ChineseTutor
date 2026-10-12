@@ -1,4 +1,4 @@
-# 0007. Dictionary sources for v1, and a word-class model that allows per-sense detail later
+# 0006. Dictionary sources for v1, and a word-class model that allows per-sense detail later
 
 - Status: Accepted
 - Date: 2026-10-12

@@ -9,7 +9,11 @@ MVP:
 - Toggleable helpers: pinyin under each word; word-boundary highlighting.
 - Tap a word to see its entry: pinyin, definitions, word class, measure words.
 
-Deferred: full-text English translation (ADR-0004).
+Not in v1:
+
+- Full-text English translation (ADR-0004).
+- Manual correction of word splits (merge or split). The reading view is read-only; the
+  dictionary-based segmenter is right often enough for v1.
 
 ## Shape
 
@@ -51,7 +55,7 @@ See ADR-0002 for why the split is drawn here.
 - Web: fetched from GitHub Pages on first use, then cached for offline use.
 - Native: bundled with the app.
 
-Dictionary sources and the entry shape are set in ADR-0007. Word class is stored per word
+Dictionary sources and the entry shape are set in ADR-0006. Word class is stored per word
 and, optionally, per sense; v1 fills mostly the word level, and later upgrades fill the
 sense level without changing the format.
 
@@ -59,4 +63,3 @@ sense level without changing the format.
 
 - Pinyin display: citation tones or spoken tone changes for 一 and 不.
 - Default readings for single characters with several pronunciations (了, 得, 还, 地).
-- How users correct a wrong segmentation (merge and split words).

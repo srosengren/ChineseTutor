@@ -1,6 +1,6 @@
 # 0002. Web first, with a shared TypeScript core for a later React Native app
 
-- Status: Accepted. Package-manager choice superseded by [0006](0006-npm-workspaces-instead-of-pnpm.md)
+- Status: Accepted
 - Date: 2026-10-12
 
 ## Context
@@ -10,9 +10,14 @@ hard parts are platform-independent: word segmentation, dictionary lookup, pinyi
 formatting, and the build-time pipeline that produces dictionary data. The UI is
 comparatively thin: an input area, a reading view, and a word-entry popover.
 
+We prefer not to add development tooling beyond what ships with Node. The repository will
+hold about four packages, so install speed and disk use are not concerns.
+
 ## Decision
 
-We will use a single repository organised as a pnpm workspace:
+We will use a single repository organised as npm workspaces, declared in the root
+`package.json`. npm ships with Node, so the only required tool is the Node version in
+`.nvmrc`.
 
 - `packages/core`: pure TypeScript with no DOM, React, React Native or Node APIs. It receives
   dictionary data through interfaces and never fetches anything itself.
@@ -33,14 +38,24 @@ platform.
   Revisit if the UI grows large.
 - **Separate repositories for web and native.** Shared code would have to be published and
   versioned as a package.
-- **npm workspaces.** Workable. pnpm was chosen for strict dependency isolation and speed.
-  Expo supports pnpm monorepos. If Metro has trouble with symlinked dependencies,
-  `node-linker=hoisted` in `.npmrc` is the known fallback.
+- **pnpm workspaces.** Strict isolation stops a package from importing dependencies it
+  doesn't declare, which would help keep `core` platform-agnostic, and installs are faster.
+  But it is an extra tool: corepack, which used to provide it, is no longer bundled from
+  Node 25. React Native's Metro bundler also needs extra configuration for pnpm's symlinked
+  `node_modules`.
+- **Yarn or Bun workspaces.** The same extra-tool cost, with no advantage over pnpm here.
 
 ## Consequences
 
-- `packages/core` must stay platform-agnostic. Enforce this with a tsconfig that excludes
-  DOM types and a lint rule against platform imports once the package exists.
+- `packages/core` must stay platform-agnostic. npm hoists `node_modules`, so a package can
+  import a dependency it didn't declare. Guard against this with a tsconfig for `core` that
+  excludes DOM types, plus a lint rule against undeclared and platform imports once ESLint
+  is set up.
+- Metro works with npm's hoisted layout without extra configuration. React Native pins an
+  exact React version, so if the web and mobile apps need different React versions, follow
+  Expo's monorepo guide to keep each app on its own copy.
 - UI is implemented twice when the native app arrives.
 - App data must load on both platforms: plain static files that the web app fetches and the
   native app bundles.
+- Revisit the package manager if installs become slow or undeclared dependencies cause real
+  bugs.

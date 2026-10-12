@@ -18,5 +18,10 @@ external service, dataset or licence obligation.
 3. Add a row to the index in `adr/README.md` in the same commit.
 
 Status moves `Proposed` → `Accepted`. Later an ADR can become `Superseded by NNNN` or
-`Deprecated`. Never rewrite the decision of an accepted ADR: write a new ADR that supersedes
-it and update the status line of both.
+`Deprecated`.
+
+Until code depends on an ADR, revise it in place when the decision changes. For example,
+a choice reversed in the same discussion is edited into the original ADR, with the old
+option moved to "Alternatives considered". Once implementation relies on an ADR, never
+rewrite its decision: write a new ADR that supersedes it and update the status line of
+both.

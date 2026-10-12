@@ -32,12 +32,13 @@ Pre-implementation. No app code yet. Read `docs/architecture.md` for the planned
 | `tools/dict-build` | Node scripts that turn source dictionaries into app data |
 | `docs/` | Architecture overview, ADRs, specs and plans (see `docs/CLAUDE.md`) |
 
-npm workspaces (no other package manager, ADR-0006); Node version in `.nvmrc`.
+npm workspaces (no other package manager, ADR-0002); Node version in `.nvmrc`.
 
 ## Working rules
 
 - Decisions that are costly to reverse, span packages, or add an external service, dataset
-  or licence get an ADR. Never rewrite an accepted ADR's decision; supersede it.
+  or licence get an ADR. Revise an ADR in place until code depends on it; after that,
+  supersede it with a new one (details in `docs/CLAUDE.md`).
 - Update `docs/architecture.md` in the same commit when the shape of the system changes.
 - Any third-party data must be recorded in `docs/data-sources.md` with source, version,
   licence and required attribution. Code is Apache-2.0; never add NonCommercial-licensed
