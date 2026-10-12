@@ -24,8 +24,8 @@ server-side compute or secrets requires its own ADR.
 
 ## Consequences
 
-- The site is served at `https://srosengren.github.io/ChineseTutor/`, so the Vite `base`
-  must be `/ChineseTutor/`.
+- The site is served at `https://rosengren.me/ChineseTutor/` (the custom domain of the
+  `srosengren.github.io` user site), so the Vite `base` must be `/ChineseTutor/`.
 - No secrets in client code.
 - Dictionary data ships as static assets. Keep the compressed payload to a few MB, load it
   lazily, and cache it for offline use.

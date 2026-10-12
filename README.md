@@ -8,7 +8,7 @@ word boundaries, pinyin, and one-tap dictionary entries.
 - [Architecture overview](docs/architecture.md)
 - [Architecture Decision Records](docs/adr/README.md)
 
-The web app will be published at https://srosengren.github.io/ChineseTutor/.
+The web app will be published at https://rosengren.me/ChineseTutor/.
 
 ## Licence
 
