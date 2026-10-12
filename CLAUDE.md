@@ -8,8 +8,9 @@ Web app first, hosted on GitHub Pages; a React Native app comes later and shares
 
 ## Status
 
-Pre-implementation. No app code yet. Read `docs/architecture.md` for the planned shape and
-`docs/adr/` for decisions already made before proposing changes to either.
+Pre-implementation. No app code yet. Read `docs/architecture.md` for the planned shape,
+`docs/adr/` for decisions already made, and `docs/specs/2026-10-12-v1-design.md` for the v1
+design before proposing changes to any of them.
 
 ## Principles
 
@@ -20,7 +21,7 @@ Pre-implementation. No app code yet. Read `docs/architecture.md` for the planned
 - **One lexicon.** The segmenter and dictionary lookup use the same word list, so every word
   the segmenter produces has an entry or an explicit fallback.
 - **Build-time data.** Source dictionaries are processed into compact app data by
-  `tools/dict-build`; raw downloads are never committed.
+  `tools/dict-build` and committed to `packages/dict-data`; raw downloads are never committed.
 
 ## Repository layout (planned)
 
@@ -29,6 +30,7 @@ Pre-implementation. No app code yet. Read `docs/architecture.md` for the planned
 | `apps/web` | React + Vite web app, static build deployed to GitHub Pages |
 | `apps/mobile` | Expo / React Native app (later) |
 | `packages/core` | Segmentation, lookup, pinyin formatting. Shared by both apps |
+| `packages/dict-data` | Built dictionary data (CC BY-SA 4.0), committed; regenerate with `npm run dict:build` |
 | `tools/dict-build` | Node scripts that turn source dictionaries into app data |
 | `docs/` | Architecture overview, ADRs, specs and plans (see `docs/CLAUDE.md`) |
 

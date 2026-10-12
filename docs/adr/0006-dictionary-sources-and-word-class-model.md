@@ -12,7 +12,7 @@ needs word frequencies. What the free sources offer (checked 2026-10-12):
 |---|---|---|---|---|
 | CC-CEDICT | CC BY-SA 4.0 | 125,262 entries | Readings, short separated senses, measure words | Word class |
 | jieba `dict.txt` | MIT | 349,046 words | Frequency, one word-class tag per word | Pinyin, definitions |
-| complete-hsk-vocabulary | MIT | 11,470 words | HSK levels, frequency rank, several word-class tags per word | Per-sense classes; its definitions are copied from CC-CEDICT |
+| complete-hsk-vocabulary | MIT | 11,470 words | HSK levels, several word-class tags per word | Per-sense classes; its definitions are copied from CC-CEDICT |
 | Wiktionary (kaikki.org extract) | CC BY-SA 4.0 | 307,224 words, 1.1 GB download | Word class per sense for multi-character words | Word class for single characters |
 
 No free source gives word class per sense for single characters (了, 打, 白), which are the
@@ -24,8 +24,9 @@ v1 uses three sources:
 
 - **CC-CEDICT** for headwords, readings, senses and measure words.
 - **jieba** for word frequencies, and for word class when the HSK list has no tags for a word.
-- **complete-hsk-vocabulary** for HSK level, frequency rank and word-level classes. We do not
-  use its definitions.
+- **complete-hsk-vocabulary** for HSK level and word-level classes. We do not use its
+  definitions (copied from CC-CEDICT) or its frequencies (taken from a third project with no
+  clear licence).
 
 The segmentation lexicon is the set of CC-CEDICT headwords, weighted by jieba frequency, so
 every segment has an entry.
@@ -35,29 +36,31 @@ Word class is stored at two levels:
 - **Word level** (`Entry.wordClasses`): filled in v1 from the HSK list, falling back to jieba.
 - **Sense level** (`Sense.wordClasses`): optional. In v1 it is filled only where CC-CEDICT's
   writing conventions make it certain: "to …" means verb, "classifier for …" means measure
-  word, and glosses marked as particles mean particle.
+  word, glosses marked as particles mean particle, and capitalised pinyin or a "surname …"
+  gloss means proper noun.
 
-The UI shows sense-level classes where present and word-level classes otherwise. Word
+The UI shows word-level classes at the top of an entry and sense-level classes next to the
+senses that have them. Word
 classes use our own small set of learner-facing labels (noun, verb, adjective, adverb,
 measure word, particle, and so on). Each source's tag codes are mapped to those labels at
 build time and never reach the app.
 
-Illustrative shape (the exact format is specified with the data pipeline):
+Entry shape (full definition in `docs/specs/2026-10-12-v1-design.md`):
 
 ```ts
 interface Entry {
-  simplified: string;
-  traditional: string;
+  word: string;              // simplified headword
   readings: Reading[];       // one per pronunciation, e.g. 了: le, liǎo
   wordClasses: WordClass[];  // word level
   hskLevel?: number;
-  frequencyRank?: number;
 }
 
 interface Reading {
   pinyin: string;            // numbered syllables, e.g. "xue2 xi2"
+  traditional: string;       // per reading: 了 is 了 for le but 瞭 for one liǎo reading
   senses: Sense[];
-  classifiers: string[];     // measure words, e.g. ["个"]
+  classifiers: Classifier[]; // measure words, e.g. { word: "个", pinyin: "ge4" }
+  notes: string[];           // e.g. "Taiwan pr. [da3]"
 }
 
 interface Sense {
@@ -89,5 +92,5 @@ interface Sense {
   CC-CEDICT, jieba and complete-hsk-vocabulary.
 - Words that jieba knows but CC-CEDICT doesn't (mostly personal and place names) segment
   into single characters.
-- `docs/data-sources.md` is created when `tools/dict-build` first downloads the sources, with
-  pinned versions.
+- `tools/dict-build` writes `docs/data-sources.md` with the pinned source versions each time
+  it runs.
