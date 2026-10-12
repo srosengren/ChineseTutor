@@ -32,7 +32,7 @@ Pre-implementation. No app code yet. Read `docs/architecture.md` for the planned
 | `tools/dict-build` | Node scripts that turn source dictionaries into app data |
 | `docs/` | Architecture overview, ADRs, specs and plans (see `docs/CLAUDE.md`) |
 
-pnpm workspace; Node version in `.nvmrc`.
+npm workspaces (no other package manager, ADR-0006); Node version in `.nvmrc`.
 
 ## Working rules
 
@@ -42,4 +42,4 @@ pnpm workspace; Node version in `.nvmrc`.
 - Any third-party data must be recorded in `docs/data-sources.md` with source, version,
   licence and required attribution. Code is Apache-2.0; never add NonCommercial-licensed
   data or GPL code (ADR-0005).
-- `main` rejects force pushes.
+- `main` rejects force pushes and cannot be deleted.

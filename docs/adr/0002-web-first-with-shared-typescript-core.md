@@ -1,6 +1,6 @@
 # 0002. Web first, with a shared TypeScript core for a later React Native app
 
-- Status: Accepted
+- Status: Accepted. Package-manager choice superseded by [0006](0006-npm-workspaces-instead-of-pnpm.md)
 - Date: 2026-10-12
 
 ## Context

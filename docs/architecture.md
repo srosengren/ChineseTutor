@@ -51,9 +51,12 @@ See ADR-0002 for why the split is drawn here.
 - Web: fetched from GitHub Pages on first use, then cached for offline use.
 - Native: bundled with the app.
 
+Dictionary sources and the entry shape are set in ADR-0007. Word class is stored per word
+and, optionally, per sense; v1 fills mostly the word level, and later upgrades fill the
+sense level without changing the format.
+
 ## Open questions
 
-- Which dictionary sources to use and how to merge them (word class per sense or per word).
 - Pinyin display: citation tones or spoken tone changes for 一 and 不.
 - Default readings for single characters with several pronunciations (了, 得, 还, 地).
 - How users correct a wrong segmentation (merge and split words).

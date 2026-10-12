@@ -1,7 +1,11 @@
 {
   "name": "chinese-tutor",
   "private": true,
-  "packageManager": "pnpm@12.11.2",
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "tools/*"
+  ],
   "engines": {
     "node": ">=24"
   }
