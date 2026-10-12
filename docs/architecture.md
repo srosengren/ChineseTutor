@@ -7,6 +7,9 @@ MVP:
 - Paste or drop Chinese text (Simplified first).
 - Render it segmented into words.
 - Toggleable helpers: pinyin under each word; word-boundary highlighting.
+- Pinyin under the text shows spoken tones for 一 and 不 (一个 *yí gè*, 不是 *bú shì*);
+  the entry popover shows dictionary tones. When the rule is unclear (ordinals like 第一,
+  dates, counting) the dictionary tone is kept. Third-tone changes are not marked.
 - Tap a word to see its entry: pinyin, definitions, word class, measure words.
 
 Not in v1:
@@ -14,6 +17,8 @@ Not in v1:
 - Full-text English translation (ADR-0004).
 - Manual correction of word splits (merge or split). The reading view is read-only; the
   dictionary-based segmenter is right often enough for v1.
+- Explaining why a tone changed. Planned: `core` already reports, for each syllable, the
+  dictionary tone, the spoken tone, and which rule changed it, so this is a UI-only addition.
 
 ## Shape
 
@@ -61,5 +66,4 @@ sense level without changing the format.
 
 ## Open questions
 
-- Pinyin display: citation tones or spoken tone changes for 一 and 不.
 - Default readings for single characters with several pronunciations (了, 得, 还, 地).
