@@ -1,0 +1,59 @@
+# Architecture overview
+
+## What the app does
+
+MVP:
+
+- Paste or drop Chinese text (Simplified first).
+- Render it segmented into words.
+- Toggleable helpers: pinyin under each word; word-boundary highlighting.
+- Tap a word to see its entry: pinyin, definitions, word class, measure words.
+
+Deferred: full-text English translation (ADR-0004).
+
+## Shape
+
+Everything runs on the client (ADR-0003). Work splits into a build-time stage and a runtime
+stage.
+
+```
+BUILD TIME (tools/dict-build, on a dev machine or CI)
+
+  source dictionaries ──► normalise & merge ──► compact app data ──► static assets
+  (downloaded, never                            (lexicon with
+   committed)                                    frequencies, entries)
+
+RUNTIME (packages/core, shared by web and native)
+
+  text ──► normalise ──► segment ──► tokens ──► annotate ──► UI (apps/web, apps/mobile)
+                            ▲                     ▲
+                            └── lexicon ──────────┴── entries (pinyin, senses, word class)
+```
+
+The segmenter and the lookup share one lexicon, so every token resolves to an entry or to an
+explicit fallback (for example, per-character entries for an unknown word).
+
+## Packages
+
+| Package | Responsibility | May depend on |
+|---|---|---|
+| `packages/core` | Segmentation, lookup, pinyin formatting | Nothing platform-specific |
+| `apps/web` | Web UI, data loading and caching | `core`, React, browser APIs |
+| `apps/mobile` | Native UI (later) | `core`, React Native, Expo |
+| `tools/dict-build` | Build app data from source dictionaries | Node |
+
+See ADR-0002 for why the split is drawn here.
+
+## Data loading
+
+`core` never fetches data. Each app loads the data files and hands them to `core`:
+
+- Web: fetched from GitHub Pages on first use, then cached for offline use.
+- Native: bundled with the app.
+
+## Open questions
+
+- Which dictionary sources to use and how to merge them (word class per sense or per word).
+- Pinyin display: citation tones or spoken tone changes for 一 and 不.
+- Default readings for single characters with several pronunciations (了, 得, 还, 地).
+- How users correct a wrong segmentation (merge and split words).
