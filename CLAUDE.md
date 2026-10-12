@@ -40,5 +40,6 @@ pnpm workspace; Node version in `.nvmrc`.
   or licence get an ADR. Never rewrite an accepted ADR's decision; supersede it.
 - Update `docs/architecture.md` in the same commit when the shape of the system changes.
 - Any third-party data must be recorded in `docs/data-sources.md` with source, version,
-  licence and required attribution.
+  licence and required attribution. Code is Apache-2.0; never add NonCommercial-licensed
+  data or GPL code (ADR-0005).
 - `main` rejects force pushes.

@@ -29,8 +29,8 @@ server-side compute or secrets requires its own ADR.
 - No secrets in client code.
 - Dictionary data ships as static assets. Keep the compressed payload to a few MB, load it
   lazily, and cache it for offline use.
-- The published site is public even though the repository is private, and Pages on a
-  private repository requires a paid GitHub plan. Any bundled third-party data must allow
+- On the free GitHub plan, Pages and branch protection require a public repository, so the
+  repository is public (licensing in ADR-0005). Any bundled third-party data must allow
   public redistribution.
 - GitHub Pages limits (1 GB site, 100 MB per file, soft 100 GB/month bandwidth) are far
   above what this app needs.

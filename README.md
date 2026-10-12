@@ -9,3 +9,8 @@ word boundaries, pinyin, and one-tap dictionary entries.
 - [Architecture Decision Records](docs/adr/README.md)
 
 The web app will be published at https://srosengren.github.io/ChineseTutor/.
+
+## Licence
+
+Code is licensed under [Apache-2.0](LICENSE). Dictionary data comes from third parties and
+keeps its own licences ([ADR-0005](docs/adr/0005-apache-2-licence-for-code-data-keeps-its-own.md)).
